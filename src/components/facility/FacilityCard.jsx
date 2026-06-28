@@ -12,16 +12,25 @@ function FacilityCard({ facility }) {
       <div className="card-body">
         <h2 className="card-title">{facility.name}</h2>
 
-        <p>📍 {facility.location}</p>
+<p className="text-gray-500">
+  📍 {facility.location}
+</p>
 
-        <p>🏅 {facility.facility_type}</p>
+<div className="badge badge-secondary">
+  {facility.facility_type}
+</div>
 
-        <p>৳ {facility.price_per_hour}/hour</p>
+   <p className="text-xl font-bold text-primary">
+  ৳ {facility.price_per_hour}/hour
+</p>
 
         <div className="card-actions justify-end">
-          <Link to={`/facility/${facility._id}`} className="btn btn-primary">
-            Book Now
-          </Link>
+<Link
+  to={`/facility/${facility._id}`}
+  className="btn btn-primary w-full"
+>
+  Book Now
+</Link>
         </div>
       </div>
     </div>
