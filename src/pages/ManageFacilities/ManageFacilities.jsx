@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-
+import { Link } from "react-router-dom";
 import axiosInstance from "../../services/axios";
 import useAuth from "../../hooks/useAuth";
 
@@ -60,7 +60,14 @@ function ManageFacilities() {
 
                 <td>৳ {facility.price_per_hour}</td>
 
-                <td>
+                <td className="space-x-2">
+                  <Link
+                    to={`/update-facility/${facility._id}`}
+                    className="btn btn-warning btn-sm"
+                  >
+                    Edit
+                  </Link>
+
                   <button
                     className="btn btn-error btn-sm"
                     onClick={() => handleDelete(facility._id)}
