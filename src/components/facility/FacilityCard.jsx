@@ -13,7 +13,7 @@ function FacilityCard({ facility }) {
         <h2 className="card-title">{facility.name}</h2>
 
 <p className="text-gray-500">
-  📍 {facility.location}
+  📍 {facility.location}.
 </p>
 
 <div className="badge badge-secondary">
