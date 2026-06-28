@@ -1,10 +1,18 @@
 import { Link } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import useAuth  from "../../hooks/useAuth";
+import { signOut } from "../../lib/auth-client";
+import toast from "react-hot-toast";
 
 function Navbar() {
   const { data, isPending } = useAuth();
+  console.log(data);
 
-console.log(data);
+  async function handleLogout() {
+    await signOut();
+
+    toast.success("Logged out!");
+  }
+
   return (
     <div className="navbar bg-base-100 shadow-md px-6">
       <div className="navbar-start">
@@ -38,9 +46,17 @@ console.log(data);
       </div>
 
       <div className="navbar-end">
-        <Link className="btn btn-primary" to="/login">
-          Login
-        </Link>
+        {data?.user ? (
+          <>
+            <img src={data.user.image} className="w-10 rounded-full" />
+
+            <button className="btn" onClick={handleLogout}>
+              Logout
+            </button>
+          </>
+        ) : (
+          <Link to="/login">Login</Link>
+        )}
       </div>
     </div>
   );

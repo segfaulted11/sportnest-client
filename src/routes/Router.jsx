@@ -11,6 +11,7 @@ import AddFacility from "../pages/AddFacility/AddFacility";
 import ManageFacilities from "../pages/ManageFacilities/ManageFacilities";
 import FacilityDetails from "../pages/FacilityDetails/FacilityDetails";
 import ErrorPage from "../pages/Error/ErrorPage";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -39,16 +40,36 @@ const router = createBrowserRouter([
         element: <Register />,
       },
       {
-        path: "my-bookings",
-        element: <MyBookings />,
+        path: "/my-bookings",
+        element: (
+          <PrivateRoute>
+            <MyBookings />
+          </PrivateRoute>
+        ),
       },
       {
-        path: "add-facility",
-        element: <AddFacility />,
+        path: "/add-facility",
+        element: (
+          <PrivateRoute>
+            <AddFacility />
+          </PrivateRoute>
+        ),
       },
       {
-        path: "manage-facilities",
-        element: <ManageFacilities />,
+        path: "/manage-facilities",
+        element: (
+          <PrivateRoute>
+            <ManageFacilities />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/facility/:id",
+        element: (
+          <PrivateRoute>
+            <FacilityDetails />
+          </PrivateRoute>
+        ),
       },
     ],
   },
