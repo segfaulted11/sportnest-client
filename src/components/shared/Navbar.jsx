@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 function Navbar() {
+  const { data, isPending } = useAuth();
+
+console.log(data);
   return (
     <div className="navbar bg-base-100 shadow-md px-6">
       <div className="navbar-start">
