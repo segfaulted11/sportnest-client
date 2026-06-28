@@ -1,5 +1,17 @@
+import Hero from "./components/Hero";
+import WhyChooseUs from "./components/WhyChooseUs";
+import Stats from "./components/Stats";
+
 function Home() {
-  return <h1>Home Page</h1>;
+  return (
+    <>
+      <Hero />
+
+      <WhyChooseUs />
+
+      <Stats />
+    </>
+  );
 }
 
 export default Home;
