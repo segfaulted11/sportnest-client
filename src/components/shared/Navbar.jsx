@@ -5,7 +5,6 @@ import toast from "react-hot-toast";
 
 function Navbar() {
   const { data, isPending } = useAuth();
-  console.log(data);
 
   async function handleLogout() {
     await signOut();

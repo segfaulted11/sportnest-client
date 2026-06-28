@@ -64,7 +64,7 @@ function FacilityDetails() {
     <section className="max-w-7xl mx-auto px-4 py-16">
       <div className="grid lg:grid-cols-2 gap-12">
         <img
-          src="https://images.unsplash.com/photo-1547347298-4074fc3086f0?w=1200"
+          src={facility.image}
           alt={facility.name}
           className="rounded-3xl w-full h-[450px] object-cover shadow-xl"
         />

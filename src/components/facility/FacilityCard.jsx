@@ -4,7 +4,7 @@ function FacilityCard({ facility }) {
   return (
     <div className="card bg-base-100 shadow-xl">
       <img
-        src="https://images.unsplash.com/photo-1547347298-4074fc3086f0?w=800"
+      src={facility.image}
         alt={facility.name}
         className="h-56 w-full object-cover"
       />

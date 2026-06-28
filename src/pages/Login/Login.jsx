@@ -1,10 +1,22 @@
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
-
 import { signIn } from "../../lib/auth-client";
 
 export default function Login() {
+
+async function handleGoogleLogin() {
+  const { error } = await signIn.social({
+    provider: "google",
+    callbackURL: "http://localhost:5173/",
+  });
+
+  if (error) {
+    console.error(error);
+    toast.error(error.message);
+  }
+}
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -77,6 +89,15 @@ export default function Login() {
 
             <button className="btn btn-primary w-full" disabled={loading}>
               {loading ? "Logging in..." : "Login"}
+            </button>
+            <div className="divider">OR</div>
+
+            <button
+              type="button"
+              className="btn btn-outline w-full"
+              onClick={handleGoogleLogin}
+            >
+              Continue with Google
             </button>
           </form>
 

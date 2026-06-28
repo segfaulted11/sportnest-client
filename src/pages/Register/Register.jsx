@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import toast from "react-hot-toast";
-
 import { signUp } from "../../lib/auth-client";
 
 export default function Register() {
+
+
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -90,6 +91,7 @@ export default function Register() {
             <button className="btn btn-primary w-full" disabled={loading}>
               {loading ? "Creating..." : "Register"}
             </button>
+            <div className="divider">OR</div>
           </form>
 
           <p className="text-center">
