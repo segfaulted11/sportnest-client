@@ -1,17 +1,20 @@
 import { Outlet } from "react-router-dom";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 
-export default function MainLayout() {
+import Navbar from "../components/shared/Navbar";
+import Footer from "../components/shared/Footer";
+
+function MainLayout() {
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <Navbar />
 
-      <main className="min-h-screen">
+      <main className="flex-1">
         <Outlet />
       </main>
 
       <Footer />
-    </>
+    </div>
   );
 }
+
+export default MainLayout;

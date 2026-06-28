@@ -2,33 +2,25 @@ import { createBrowserRouter } from "react-router-dom";
 
 import MainLayout from "../layouts/MainLayout";
 
-import Home from "../pages/Home";
-import Login from "../pages/Login";
-import Register from "../pages/Register";
-import AllFacilities from "../pages/AllFacilities";
-import FacilityDetails from "../pages/FacilityDetails";
-import AddFacility from "../pages/AddFacility";
-import ManageFacilities from "../pages/ManageFacilities";
-import MyBookings from "../pages/MyBookings";
-import NotFound from "../pages/NotFound";
+import Home from "../pages/Home/Home";
+import AllFacilities from "../pages/AllFacilities/AllFacilities";
+import Login from "../pages/Login/Login";
+import Register from "../pages/Register/Register";
+import MyBookings from "../pages/MyBookings/MyBookings";
+import AddFacility from "../pages/AddFacility/AddFacility";
+import ManageFacilities from "../pages/ManageFacilities/ManageFacilities";
+import FacilityDetails from "../pages/FacilityDetails/FacilityDetails";
+import ErrorPage from "../pages/Error/ErrorPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
-    errorElement: <NotFound />,
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,
         element: <Home />,
-      },
-      {
-        path: "login",
-        element: <Login />,
-      },
-      {
-        path: "register",
-        element: <Register />,
       },
       {
         path: "facilities",
@@ -39,16 +31,24 @@ const router = createBrowserRouter([
         element: <FacilityDetails />,
       },
       {
+        path: "login",
+        element: <Login />,
+      },
+      {
+        path: "register",
+        element: <Register />,
+      },
+      {
+        path: "my-bookings",
+        element: <MyBookings />,
+      },
+      {
         path: "add-facility",
         element: <AddFacility />,
       },
       {
         path: "manage-facilities",
         element: <ManageFacilities />,
-      },
-      {
-        path: "my-bookings",
-        element: <MyBookings />,
       },
     ],
   },
