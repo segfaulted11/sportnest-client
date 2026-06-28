@@ -28,10 +28,6 @@ const router = createBrowserRouter([
         element: <AllFacilities />,
       },
       {
-        path: "facility/:id",
-        element: <FacilityDetails />,
-      },
-      {
         path: "login",
         element: <Login />,
       },
