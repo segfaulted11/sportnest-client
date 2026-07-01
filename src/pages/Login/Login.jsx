@@ -8,7 +8,7 @@ export default function Login() {
 async function handleGoogleLogin() {
   const { error } = await signIn.social({
     provider: "google",
-    callbackURL: window.location.origin,
+    // callbackURL: window.location.origin,
   });
 
   if (error) {
