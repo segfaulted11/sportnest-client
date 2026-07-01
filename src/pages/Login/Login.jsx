@@ -6,11 +6,14 @@ import { signIn } from "../../lib/auth-client";
 export default function Login() {
 
 async function handleGoogleLogin() {
-  await signIn.social({
+  const { error } = await signIn.social({
     provider: "google",
-    callbackURL: "/",
-    errorCallbackURL: "/login",
   });
+
+  if (error) {
+    console.error(error);
+    toast.error(error.message);
+  }
 }
 
   const navigate = useNavigate();
