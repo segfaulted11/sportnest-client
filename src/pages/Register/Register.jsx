@@ -1,55 +1,71 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import toast from "react-hot-toast";
-import { signUp } from "../../lib/auth-client";
+import {
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
+
+import { auth } from "../../firebase/firebase.config";
 
 export default function Register() {
 
 
   const navigate = useNavigate();
 
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    image: "",
-    password: "",
-  });
+const [form, setForm] = useState({
+  name: "",
+  photo: "",
+  email: "",
+  password: "",
+});
 
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
-  };
+function handleChange(e) {
+  setForm({
+    ...form,
+    [e.target.name]: e.target.value,
+  });
+}
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+async function handleSubmit(e) {
+  e.preventDefault();
 
-    setLoading(true);
+  setLoading(true);
 
-    await signUp.email(
-      {
-        name: form.name,
-        email: form.email,
-        password: form.password,
-        image: form.image,
-      },
-      {
-        onSuccess() {
-          toast.success("Account created!");
-          navigate("/");
-        },
-
-        onError(ctx) {
-          toast.error(ctx.error.message);
-        },
-      },
+  try {
+    const result = await createUserWithEmailAndPassword(
+      auth,
+      form.email,
+      form.password
     );
 
-    setLoading(false);
-  };
+    await updateProfile(result.user, {
+      displayName: form.name,
+      photoURL: form.photo,
+    });
+
+    toast.success("Account created!");
+
+    navigate("/");
+  } catch (err) {
+  switch (err.code) {
+    case "auth/email-already-in-use":
+      toast.error("Email already exists.");
+      break;
+
+    case "auth/weak-password":
+      toast.error("Password should be at least 6 characters.");
+      break;
+
+    default:
+      toast.error("Registration failed.");
+  }
+}
+
+  setLoading(false);
+}
 
   return (
     <div className="hero min-h-screen">
@@ -58,35 +74,32 @@ export default function Register() {
           <h2 className="text-3xl font-bold text-center">Register</h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            <input
-              className="input input-bordered w-full"
-              placeholder="Name"
-              name="name"
-              onChange={handleChange}
-            />
+<input
+  type="text"
+  name="name"
+  placeholder="Full Name"
+  onChange={handleChange}
+/>
 
-            <input
-              className="input input-bordered w-full"
-              placeholder="Email"
-              name="email"
-              type="email"
-              onChange={handleChange}
-            />
+<input
+  type="email"
+  name="email"
+  placeholder="Email"
+  onChange={handleChange}
+/>
 
-            <input
-              className="input input-bordered w-full"
-              placeholder="Photo URL"
-              name="image"
-              onChange={handleChange}
-            />
-
-            <input
-              className="input input-bordered w-full"
-              placeholder="Password"
-              name="password"
-              type="password"
-              onChange={handleChange}
-            />
+<input
+  type="text"
+  name="photo"
+  placeholder="Photo URL"
+  onChange={handleChange}
+/>
+<input
+  type="password"
+  name="password"
+  placeholder="Password"
+  onChange={handleChange}
+/>
 
             <button className="btn btn-primary w-full" disabled={loading}>
               {loading ? "Creating..." : "Register"}

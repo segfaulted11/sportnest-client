@@ -1,17 +1,33 @@
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
-import { signIn } from "../../lib/auth-client";
+import {
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
+
+import { auth } from "../../firebase/firebase.config";
 
 export default function Login() {
-  async function handleGoogleLogin() {
-    await signIn.social({
-      provider: "google",
-      callbackURL: "/",
-      newUserCallbackURL: "/",
-      errorCallbackURL: "/login",
+
+async function handleGoogleLogin() {
+  try {
+    const provider = new GoogleAuthProvider();
+
+    await signInWithPopup(auth, provider);
+
+    toast.success("Logged in successfully!");
+
+    navigate(from, {
+      replace: true,
     });
+
+  } catch (err) {
+    console.log(err);
+    toast.error("Google login failed.");
   }
+}
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -32,33 +48,43 @@ export default function Login() {
     });
   };
 
-  async function handleSubmit(e) {
-    e.preventDefault();
+async function handleSubmit(e) {
+  e.preventDefault();
 
-    setLoading(true);
+  setLoading(true);
 
-    await signIn.email(
-      {
-        email: form.email,
-        password: form.password,
-      },
-      {
-        onSuccess() {
-          toast.success("Welcome back!");
-
-          navigate(from, {
-            replace: true,
-          });
-        },
-
-        onError(ctx) {
-          toast.error(ctx.error.message);
-        },
-      },
+  try {
+    await signInWithEmailAndPassword(
+      auth,
+      form.email,
+      form.password
     );
 
-    setLoading(false);
+    toast.success("Welcome back!");
+
+    navigate(from, {
+      replace: true,
+    });
+
+  } catch (err) {
+    console.log(err);
+
+    switch (err.code) {
+      case "auth/invalid-credential":
+        toast.error("Invalid email or password.");
+        break;
+
+      case "auth/user-not-found":
+        toast.error("User not found.");
+        break;
+
+      default:
+        toast.error("Login failed.");
+    }
   }
+
+  setLoading(false);
+}
 
   return (
     <div className="hero min-h-screen">

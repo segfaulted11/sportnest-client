@@ -11,13 +11,21 @@ function FeaturedFacilities() {
 
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    axiosInstance.get("/facilities").then((res) => {
-      setFacilities(res.data.slice(0, 6));
+useEffect(() => {
+  async function fetchFacilities() {
+    try {
+      const res = await axiosInstance.get("/facilities");
 
+      setFacilities(res.data.slice(0, 6));
+    } catch (err) {
+      console.error(err);
+    } finally {
       setLoading(false);
-    });
-  }, []);
+    }
+  }
+
+  fetchFacilities();
+}, []);
 
   if (loading) {
     return <Loading />;

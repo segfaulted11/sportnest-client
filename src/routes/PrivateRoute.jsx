@@ -1,31 +1,26 @@
 import { Navigate, useLocation } from "react-router-dom";
-
+import Loading from "../components/shared/Loading";
 import useAuth from "../hooks/useAuth";
 
-import Loading from "../components/shared/Loading";
+function PrivateRoute({ children }) {
+  const { user, loading } = useAuth();
+  const location = useLocation();
 
-export default function PrivateRoute({
-    children,
-}) {
+  if (loading) {
+    return <Loading />;
+  }
 
-    const session = useAuth();
+  if (!user) {
+    return (
+      <Navigate
+        to="/login"
+        state={{ from: location.pathname }}
+        replace
+      />
+    );
+  }
 
-    const location = useLocation();
-
-    if (session.isPending)
-        return <Loading />;
-
-    if (!session.data?.user)
-
-        return (
-            <Navigate
-                to="/login"
-                replace
-                state={{
-                    from: location.pathname,
-                }}
-            />
-        );
-
-    return children;
+  return children;
 }
+
+export default PrivateRoute;

@@ -5,17 +5,27 @@ import axiosInstance from "../../services/axios";
 import useAuth from "../../hooks/useAuth";
 
 function ManageFacilities() {
-  const { data } = useAuth();
-
+const { user } = useAuth();
   const [facilities, setFacilities] = useState([]);
 
-  useEffect(() => {
-    if (!data?.user) return;
+useEffect(() => {
+  if (!user) return;
 
-    axiosInstance.get(`/facilities/owner/${data.user.email}`).then((res) => {
+  async function fetchFacilities() {
+    try {
+      const res = await axiosInstance.get(
+        `/facilities/owner/${user.email}`
+      );
+
       setFacilities(res.data);
-    });
-  }, [data]);
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to load facilities.");
+    }
+  }
+
+  fetchFacilities();
+}, [user]);
 
   async function handleDelete(id) {
     const confirmed = window.confirm("Delete facility?");

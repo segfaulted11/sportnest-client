@@ -1,15 +1,22 @@
 import { Link } from "react-router-dom";
-import { signOut } from "../../lib/auth-client";
 import toast from "react-hot-toast";
 import useAuth from "../../hooks/useAuth";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase/firebase.config";
 
 function Navbar() {
-  const { data, isPending } = useAuth();
+  const { isPending } = useAuth();
+const { user } = useAuth();
 
-  async function handleLogout() {
-    await signOut();
+// console.log(user)
+async function handleLogout() {
+  try {
+    await signOut(auth);
     toast.success("Logged out!");
+  } catch (err) {
+    console.log(err);
   }
+}
 
   if (isPending) {
     return (
@@ -47,7 +54,7 @@ function Navbar() {
 
       {/* Right */}
       <div className="navbar-end">
-        {data?.user ? (
+        {user ? (
           <div className="dropdown dropdown-end">
             <div
               tabIndex={0}
@@ -57,13 +64,14 @@ function Navbar() {
               <div className="w-10 rounded-full">
                 <img
                   src={
-                    data.user.image ||
+                    user.photoURL ||
                     "https://ui-avatars.com/api/?name=User"
                   }
                   alt="User"
                 />
               </div>
             </div>
+              <p className="font-bold">click on the profile image to naviagte further</p>
 
             <ul
               tabIndex={0}
@@ -71,11 +79,11 @@ function Navbar() {
             >
               <li className="pointer-events-none mb-2">
                 <span className="font-bold text-base">
-                  {data.user.name || "User"}
+                  {user.displayName || "User"}
                 </span>
 
                 <span className="text-xs opacity-70">
-                  {data.user.email}
+                  {user.email}
                 </span>
               </li>
 

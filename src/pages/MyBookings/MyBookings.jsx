@@ -5,24 +5,30 @@ import axiosInstance from "../../services/axios";
 import useAuth from "../../hooks/useAuth";
 
 function MyBookings() {
-  const { data } = useAuth();
-
+const { user } = useAuth();
   const [bookings, setBookings] = useState([]);
 
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (!data?.user) return;
+useEffect(() => {
+  if (!user) {
+    setLoading(false);
+    return;
+  }
 
-    axiosInstance
-      .get(`/bookings/my?email=${data.user.email}`)
-      .then((res) => {
-        setBookings(res.data);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [data]);
+  axiosInstance
+    .get(`/bookings/my?email=${user.email}`)
+    .then((res) => {
+      setBookings(res.data);
+    })
+    .catch((err) => {
+      console.error(err);
+      toast.error("Failed to load bookings");
+    })
+    .finally(() => {
+      setLoading(false);
+    });
+}, [user]);
 
   async function handleCancel(id) {
     try {

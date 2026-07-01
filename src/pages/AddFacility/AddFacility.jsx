@@ -7,7 +7,8 @@ import useAuth from "../../hooks/useAuth";
 
 function AddFacility() {
   const navigate = useNavigate();
-  const { data } = useAuth();
+  const { user } = useAuth();
+  // console.log('lol',user)
 
   const [uploading, setUploading] = useState(false);
 
@@ -80,7 +81,7 @@ function AddFacility() {
           .split(",")
           .map((slot) => slot.trim()),
         description: form.description,
-        owner_email: data.user.email,
+        owner_email: user.email,
         booking_count: 0,
       };
 

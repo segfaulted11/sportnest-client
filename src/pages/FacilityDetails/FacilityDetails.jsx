@@ -13,7 +13,7 @@ function FacilityDetails() {
   const navigate = useNavigate();
 
   const { facility, loading } = useFacility(id);
-  const { data } = useAuth();
+const { user } = useAuth();
 
   const [bookingDate, setBookingDate] = useState("");
   const [timeSlot, setTimeSlot] = useState("");
@@ -36,7 +36,7 @@ function FacilityDetails() {
       return toast.error("Please complete the form.");
     }
 
-    if (!data?.user) {
+    if (!user) {
       return toast.error("Please login first.");
     }
 
@@ -44,7 +44,7 @@ function FacilityDetails() {
       await axiosInstance.post("/bookings", {
         facility_id: facility._id,
         facility_name: facility.name,
-        user_email: data.user.email,
+        user_email: user.email,
         booking_date: bookingDate,
         time_slot: timeSlot,
         hours: Number(hours),
