@@ -4,21 +4,14 @@ import toast from "react-hot-toast";
 import { signIn } from "../../lib/auth-client";
 
 export default function Login() {
-
-async function handleGoogleLogin() {
-  await signIn.social({
-    provider: "google",
-    callbackURL: "/",
-    newUserCallbackURL: "/",
-    errorCallbackURL: "/login",
-  });
-}
-
-  if (error) {
-    console.error(error);
-    toast.error(error.message);
+  async function handleGoogleLogin() {
+    await signIn.social({
+      provider: "google",
+      callbackURL: "/",
+      newUserCallbackURL: "/",
+      errorCallbackURL: "/login",
+    });
   }
-}
 
   const navigate = useNavigate();
   const location = useLocation();
