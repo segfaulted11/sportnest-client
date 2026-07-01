@@ -6,9 +6,13 @@ import { signIn } from "../../lib/auth-client";
 export default function Login() {
 
 async function handleGoogleLogin() {
-  const { error } = await signIn.social({
+  await signIn.social({
     provider: "google",
+    callbackURL: "/",
+    newUserCallbackURL: "/",
+    errorCallbackURL: "/login",
   });
+}
 
   if (error) {
     console.error(error);
