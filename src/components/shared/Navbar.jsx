@@ -71,7 +71,7 @@ async function handleLogout() {
                 />
               </div>
             </div>
-              <p className="font-bold">click on the profile image to naviagte further</p>
+              <p className="font-bold">click on the profile image to navigate further</p>
 
             <ul
               tabIndex={0}
